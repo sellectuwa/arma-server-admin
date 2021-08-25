@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { CookiesProvider } from 'react-cookie';
+import { Center, ChakraProvider, Spinner } from '@chakra-ui/react';
 
-import { ChakraProvider } from '@chakra-ui/react';
 import { AuthContextProvider } from '../context/authContext';
 
 function MyApp({ Component, pageProps }) {
@@ -23,11 +24,19 @@ function MyApp({ Component, pageProps }) {
   }, [router]);
 
   return (
-    <AuthContextProvider>
-      <ChakraProvider>
-        {pageLoading ? <></> : <Component {...pageProps} />}
-      </ChakraProvider>
-    </AuthContextProvider>
+    <CookiesProvider>
+      <AuthContextProvider>
+        <ChakraProvider>
+          {pageLoading ? (
+            <Center h="100vh">
+              <Spinner size="xl" />
+            </Center>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </ChakraProvider>
+      </AuthContextProvider>
+    </CookiesProvider>
   );
 }
 export default MyApp;

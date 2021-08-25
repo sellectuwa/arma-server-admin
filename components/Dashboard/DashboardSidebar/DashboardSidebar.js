@@ -1,14 +1,36 @@
-import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { useContext } from 'react';
+import { useCookies } from 'react-cookie';
+import {
+  Button,
+  Center,
+  Flex,
+  Spacer,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { FaRss } from 'react-icons/fa';
 import { AiFillGift } from 'react-icons/ai';
 import { BsGearFill } from 'react-icons/bs';
 import { MdHome } from 'react-icons/md';
 
+import AuthContext from '../../../context/authContext';
 import SidebarItem from './DashboardSidebarItem';
 
 const DashboardSidebar = () => {
+  const removeCookie = useCookies(['sessionId'])[2];
+  const { setUser } = useContext(AuthContext);
+
+  const logout = () => {
+    removeCookie('sessionId');
+    setUser({
+      isLoggedIn: false,
+      username: '',
+    });
+  };
+
   return (
-    <Box
+    <Flex
+      direction="column"
       as="nav"
       pos="fixed"
       top="0"
@@ -22,7 +44,6 @@ const DashboardSidebar = () => {
       borderColor={useColorModeValue('inherit', 'gray.700')}
       borderRightWidth="1px"
       w="60"
-      display={{ base: 'none', md: 'unset' }}
     >
       <Flex px="4" py="5" align="center">
         <Text
@@ -46,7 +67,13 @@ const DashboardSidebar = () => {
         <SidebarItem icon={AiFillGift}>Changelog</SidebarItem>
         <SidebarItem icon={BsGearFill}>Settings</SidebarItem>
       </Flex>
-    </Box>
+      <Spacer />
+      <Center py="15px">
+        <Button colorScheme="blue" size="sm" onClick={logout}>
+          Logout
+        </Button>
+      </Center>
+    </Flex>
   );
 };
 

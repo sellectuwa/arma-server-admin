@@ -8,6 +8,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Stack,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { FaEye, FaEyeSlash, FaLock, FaUser } from 'react-icons/fa';
@@ -18,6 +19,7 @@ const LoginForm = ({
   setUsername,
   password,
   setPassword,
+  errorMessage,
 }) => {
   const showPassword = useDisclosure();
 
@@ -73,6 +75,10 @@ const LoginForm = ({
             </InputRightElement>
           </InputGroup>
         </FormControl>
+        <Text color="tomato" align="center">
+          {errorMessage.isOpen ? 'Wrong login or password' : <></>}
+        </Text>
+
         <Button type="submit" colorScheme="blue" size="lg" fontSize="md">
           Sign in
         </Button>
