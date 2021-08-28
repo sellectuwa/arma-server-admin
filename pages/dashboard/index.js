@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { withRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
+import { Center, Spinner } from '@chakra-ui/react';
 
 import AuthContext from '../../context/authContext';
 import DashboardLayout from '../../components/Dashboard/DashboardLayout';
@@ -15,7 +16,11 @@ const Dashboard = ({ router }) => {
   }, [user]);
 
   if (!user.isLoggedIn) {
-    return <p>Loading...</p>;
+    return (
+      <Center h="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
   }
 
   return (

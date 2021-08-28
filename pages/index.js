@@ -6,7 +6,9 @@ import { useCookies } from 'react-cookie';
 
 import {
   Box,
+  Center,
   Heading,
+  Spinner,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -20,6 +22,8 @@ export default function Home() {
 
   const { user, setUser } = useContext(AuthContext);
   const [cookies, setCookies] = useCookies('sessionId');
+
+  const [ready, setReady] = useState(false);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -40,13 +44,14 @@ export default function Home() {
         const data = await res.json();
 
         if (data.username) {
-          setUser({
+          return setUser({
             isLoggedIn: true,
             username: data.username,
           });
         }
       }
     }
+    return setReady(true);
   }, []);
 
   useEffect(() => {
@@ -79,6 +84,14 @@ export default function Home() {
       errorMessage.onOpen();
     }
   };
+
+  if (!ready) {
+    return (
+      <Center h="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
+  }
 
   return (
     <Box
