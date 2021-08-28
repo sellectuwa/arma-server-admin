@@ -1,6 +1,6 @@
 import { Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 
-const DashboardSidebarItem = ({ icon, children }) => {
+const DashboardSidebarItem = ({ icon, children, active }) => {
   return (
     <Flex
       align="center"
@@ -8,7 +8,12 @@ const DashboardSidebarItem = ({ icon, children }) => {
       pl="4"
       py="3"
       cursor="pointer"
-      color={useColorModeValue('inherit', 'gray.400')}
+      color={
+        active
+          ? useColorModeValue('gray.900', 'gray.200')
+          : useColorModeValue('inherit', 'gray.400')
+      }
+      bg={active ? useColorModeValue('gray.100', 'gray.900') : undefined}
       _hover={{
         bg: useColorModeValue('gray.100', 'gray.900'),
         color: useColorModeValue('gray.900', 'gray.200'),

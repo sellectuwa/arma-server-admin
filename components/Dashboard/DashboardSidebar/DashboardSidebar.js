@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useCookies } from 'react-cookie';
 import {
@@ -17,6 +18,9 @@ import AuthContext from '../../../context/authContext';
 import SidebarItem from './DashboardSidebarItem';
 
 const DashboardSidebar = () => {
+  const router = useRouter();
+  const { pathname } = router;
+
   const removeCookie = useCookies(['sessionId'])[2];
   const { setUser } = useContext(AuthContext);
 
@@ -62,7 +66,9 @@ const DashboardSidebar = () => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <SidebarItem icon={MdHome}>Home</SidebarItem>
+        <SidebarItem active={pathname === '/dashboard'} icon={MdHome}>
+          Home
+        </SidebarItem>
         <SidebarItem icon={FaRss}>Articles</SidebarItem>
         <SidebarItem icon={AiFillGift}>Changelog</SidebarItem>
         <SidebarItem icon={BsGearFill}>Settings</SidebarItem>
