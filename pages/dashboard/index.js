@@ -1,12 +1,13 @@
 import Head from 'next/head';
-import { withRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
-import { Center, Spinner } from '@chakra-ui/react';
+import { Box, Center, Heading, Spinner } from '@chakra-ui/react';
 
 import AuthContext from '../../context/authContext';
 import DashboardLayout from '../../components/Dashboard/DashboardLayout';
 
-const Dashboard = ({ router }) => {
+const Dashboard = () => {
+  const router = useRouter();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -28,9 +29,11 @@ const Dashboard = ({ router }) => {
       <Head>
         <title>Dashboard - Arma 3 Server</title>
       </Head>
-      <p>This is main view of dashboard</p>
+      <Box p="60px">
+        <Heading>Hello, {user.username}</Heading>
+      </Box>
     </DashboardLayout>
   );
 };
 
-export default withRouter(Dashboard);
+export default Dashboard;

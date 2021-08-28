@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useCookies } from 'react-cookie';
 import {
@@ -9,8 +8,6 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FaRss } from 'react-icons/fa';
-import { AiFillGift } from 'react-icons/ai';
 import { BsGearFill } from 'react-icons/bs';
 import { MdHome } from 'react-icons/md';
 
@@ -18,9 +15,6 @@ import AuthContext from '../../../context/authContext';
 import SidebarItem from './DashboardSidebarItem';
 
 const DashboardSidebar = () => {
-  const router = useRouter();
-  const { pathname } = router;
-
   const removeCookie = useCookies(['sessionId'])[2];
   const { setUser } = useContext(AuthContext);
 
@@ -44,6 +38,7 @@ const DashboardSidebar = () => {
       borderColor={useColorModeValue('inherit', 'gray.700')}
       borderRightWidth="1px"
       w="60"
+      minW="60"
     >
       <Flex px="4" py="5" align="center">
         <Text
@@ -62,12 +57,12 @@ const DashboardSidebar = () => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <SidebarItem active={pathname === '/dashboard'} icon={MdHome}>
+        <SidebarItem path="/dashboard" icon={MdHome}>
           Home
         </SidebarItem>
-        <SidebarItem icon={FaRss}>Articles</SidebarItem>
-        <SidebarItem icon={AiFillGift}>Changelog</SidebarItem>
-        <SidebarItem icon={BsGearFill}>Settings</SidebarItem>
+        <SidebarItem path="/dashboard/settings" icon={BsGearFill}>
+          Settings
+        </SidebarItem>
       </Flex>
       <Spacer />
       <Center py="15px">

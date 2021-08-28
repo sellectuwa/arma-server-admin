@@ -1,6 +1,10 @@
+import { useRouter } from 'next/router';
 import { Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 
-const DashboardSidebarItem = ({ icon, children, active }) => {
+const DashboardSidebarItem = ({ icon, children, path }) => {
+  const router = useRouter();
+  const active = router.pathname === path;
+
   return (
     <Flex
       align="center"
@@ -17,6 +21,9 @@ const DashboardSidebarItem = ({ icon, children, active }) => {
       _hover={{
         bg: useColorModeValue('gray.100', 'gray.900'),
         color: useColorModeValue('gray.900', 'gray.200'),
+      }}
+      onClick={() => {
+        router.push(path);
       }}
       role="group"
       fontWeight="semibold"
