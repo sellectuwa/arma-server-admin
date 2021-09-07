@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import fetch from 'node-fetch';
+import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
 import {
@@ -33,20 +33,14 @@ export default function Home() {
   useEffect(async () => {
     if (!user.isLoggedIn) {
       if (cookies.sessionId) {
-        const body = { sessionId: cookies.sessionId };
-
-        const res = await fetch('/api/session', {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: { 'Content-Type': 'application/json' },
+        const { data: response } = await axios.post('/api/session', {
+          sessionId: cookies.sessionId,
         });
 
-        const data = await res.json();
-
-        if (data.username) {
+        if (response.username) {
           return setUser({
             isLoggedIn: true,
-            username: data.username,
+            username: response.username,
           });
         }
       }
@@ -63,21 +57,16 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const body = { username, password };
-
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+    const { data: response } = await axios.post('/api/login', {
+      username,
+      password,
     });
 
-    const data = await res.json();
-
-    if (data.username) {
-      setCookies('sessionId', data.sessionId);
+    if (response.username) {
+      setCookies('sessionId', response.sessionId);
       setUser({
         isLoggedIn: true,
-        username: data.username,
+        username: response.username,
       });
       errorMessage.onClose();
     } else {
